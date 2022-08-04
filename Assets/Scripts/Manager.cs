@@ -8,8 +8,20 @@ public class Manager : MonoBehaviour
 {
     public GameObject failedPanel;
     public GameObject player;
+    private static int life = 100;
 
-    public static int Life = 100;
+    public static int Life  // ENCAPSULATION
+    {
+        get
+        {
+            return life;
+        }
+        set
+        {
+            life = value;
+        }
+    }
+
     public Text lifeText;
 
     private void Awake()
@@ -24,11 +36,11 @@ public class Manager : MonoBehaviour
         if(Life <= 0)
         {
             OpenFailedPanel();
-            SceneManager.LoadScene(1);
+            InvokeRepeating("LoadLevelScene", 2f, 0f);
         }
-        if(player.transform.position.z >= 130)
+        if(player.transform.position.z >= 153)
         {
-            SceneManager.LoadScene(1);
+            LoadLevelScene();
         }
 
     }
@@ -41,5 +53,10 @@ public class Manager : MonoBehaviour
     public void BackToMenuButton()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void LoadLevelScene()
+    {
+        SceneManager.LoadScene(1);
     }
 }

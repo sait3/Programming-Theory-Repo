@@ -28,10 +28,12 @@ public class PlayerCharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        horizontalInput = 1;
+        MoveRightLeft();
 
+        horizontalInput = 1;
+       
         // Face toward
-       // transform.forward = new Vector3(horizontalInput, 0, Mathf.Abs(horizontalInput) - 1);
+        // transform.forward = new Vector3(horizontalInput, 0, Mathf.Abs(horizontalInput) - 1);
 
         // IsGrounded
         isGrounded = Physics.CheckSphere(transform.position, 0.1f, groundLayers, QueryTriggerInteraction.Ignore);
@@ -59,30 +61,6 @@ public class PlayerCharacterController : MonoBehaviour
         characterController.Move(velocity * Time.deltaTime);
     }
 
-    void MoveLeftRight()
-    {
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            right = true;
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            left = true;
-        }
-
-        if (right)
-        {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(2f, transform.position.y, transform.position.z), Time.deltaTime * 3f);
-        }
-
-        if (left)
-        {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(-2f, transform.position.y, transform.position.z), Time.deltaTime * 3f);
-        }
-
-       
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -99,6 +77,20 @@ public class PlayerCharacterController : MonoBehaviour
                 animator.SetBool("isGrounded", true);
                 animator.SetBool("isJumping", false);
             }
+        }
+    }
+
+    void MoveRightLeft() // ABSTRACTION
+    {
+        Vector3 right = new Vector3(3, 0, 0);
+        Vector3 left = new Vector3(-3, 0, 0);
+        if (Input.GetKey(KeyCode.D))
+        {
+            characterController.Move(right * Time.deltaTime);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            characterController.Move(left * Time.deltaTime);
         }
     }
 }
